@@ -1,0 +1,28 @@
+[mysqld]
+
+#
+# * Basic Settings
+#
+
+skip-name-resolve
+
+#
+# * Fine Tuning
+#
+
+# Use "show global status like 'open_tables';" and verify that it's not bigger than 50% of the "table_open_cache".
+#table_open_cache       = 2000
+tmp_table_size          = 1G
+max_heap_table_size     = 1G
+query_cache_size        = 128M
+wait_timeout            = 300
+
+#
+# * InnoDB
+#
+
+# InnoDB is enabled by default with a 10MB datafile in /var/lib/mysql/.
+# Read the manual for more InnoDB related options. There are many!
+# Most important is to give InnoDB 80% of the system RAM for buffer use:
+# https://mariadb.com/kb/en/innodb-system-variables/#innodb_buffer_pool_size
+innodb_buffer_pool_size = 12G
