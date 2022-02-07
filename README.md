@@ -17,6 +17,7 @@ It currently consists of:
    * Parsing of logs for proper categorization in `Kibana`
    * PHP caching via [FastCGI](https://www.nginx.com/blog/9-tips-for-improving-wordpress-performance-with-nginx/#fastcgi)
    * Object caching via `Redis`
+   * Rate limiter against brute force attacks
    * Scored <b>A</b> by web security scanners (e.g., [ImmuniWeb](https://www.immuniweb.com/), [Security Headers](https://securityheaders.com/))
    * Automatic retrieval of HTTPS certificates with [Certbot](https://certbot.eff.org)
 
