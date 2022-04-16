@@ -84,7 +84,7 @@ services:
       - mysql
       - redis
     build: ./build/wordpress
-    image: wordpress:5.9.2-php8.1-fpm-alpine
+    image: wordpress:5.9.3-php8.1-fpm-alpine
     container_name: wordpress
     env_file: .env
     environment:
