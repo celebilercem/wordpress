@@ -95,7 +95,7 @@ services:
       - WORDPRESS_CONFIG_EXTRA=
           define('WP_REDIS_HOST', 'redis');
           define('WP_REDIS_PORT', '6379');
-#      - WORDPRESS_DEBUG=true
+      #- WORDPRESS_DEBUG=true
     volumes:
       - html-data:/var/www/html
       - ./etc/php/custom.ini:/usr/local/etc/php/conf.d/custom.ini:ro
