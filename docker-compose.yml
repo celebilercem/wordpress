@@ -10,6 +10,9 @@ services:
       - ./etc/elasticsearch/jvm.options.d:/usr/share/elasticsearch/config/jvm.options.d:ro
     #ports:
     #  - 9200:9200
+    networks:
+      - app-network
+    restart: always
 
   # Official Kibana image
   kibana:
@@ -21,6 +24,9 @@ services:
       - ./etc/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
     ports:
       - 127.0.0.1:5601:5601
+    networks:
+      - app-network
+    restart: always
 
   # Official Fluentd image with additional plugins (see https://github.com/fluent/fluentd-docker-image#how-to-build-your-own-image)
   fluentd:
@@ -34,6 +40,9 @@ services:
     ports:
       - 127.0.0.1:24224:24224
       - 127.0.0.1:24224:24224/udp
+    networks:
+      - app-network
+    restart: always
       
   # Official MariaDB image
   mysql:
@@ -56,7 +65,7 @@ services:
         tag: '{{.DaemonName}}.{{.Name}}'
     networks:
       - app-network
-    restart: unless-stopped
+    restart: always
 
   # Official Redis image
   redis:
@@ -75,7 +84,7 @@ services:
         tag: '{{.DaemonName}}.{{.Name}}'
     networks:
       - app-network
-    restart: unless-stopped
+    restart: always
 
   # Official Wordpress image with PHP-FPM
   wordpress:
@@ -95,7 +104,7 @@ services:
       - WORDPRESS_CONFIG_EXTRA=
           define('WP_REDIS_HOST', 'redis');
           define('WP_REDIS_PORT', '6379');
-#      - WORDPRESS_DEBUG=true
+      #- WORDPRESS_DEBUG=true
     volumes:
       - html-data:/var/www/html
       - ./etc/php/custom.ini:/usr/local/etc/php/conf.d/custom.ini:ro
@@ -107,7 +116,7 @@ services:
         tag: '{{.DaemonName}}.{{.Name}}'
     networks:
       - app-network
-    restart: unless-stopped
+    restart: always
 
   # Official NGINX image with third-party modules (see https://github.com/nginxinc/docker-nginx/tree/master/modules)
   nginx:
@@ -138,7 +147,7 @@ services:
         tag: '{{.DaemonName}}.{{.Name}}'
     networks:
       - app-network
-    restart: unless-stopped
+    restart: always
 
   certbot:
     depends_on:
