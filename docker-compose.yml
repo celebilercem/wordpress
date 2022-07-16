@@ -39,7 +39,7 @@ services:
   mysql:
     depends_on:
       - fluentd
-    image: mariadb:10.7.3
+    image: mariadb:10.7.4
     container_name: mysql
     env_file: .env
     environment:
@@ -84,7 +84,7 @@ services:
       - mysql
       - redis
     build: ./build/wordpress
-    image: wordpress:5.9.3-php8.1-fpm-alpine
+    image: wordpress:6.0.1-php8.1-fpm-alpine
     container_name: wordpress
     env_file: .env
     environment:
