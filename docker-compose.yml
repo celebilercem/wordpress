@@ -71,7 +71,7 @@ services:
   redis:
     depends_on:
       - fluentd
-    image: redis:6.2-alpine
+    image: redis:7.0.3-alpine
     container_name: redis
     volumes:
       - ./etc/redis:/usr/local/etc/redis:ro
