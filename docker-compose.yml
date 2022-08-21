@@ -67,9 +67,10 @@ services:
     container_name: 'redis'
     volumes:
       - './etc/redis:/usr/local/etc/redis:ro'
+      - 'redis-data:/data'
     command: 'redis-server /usr/local/etc/redis/redis.conf'
-    ports:
-      - '127.0.0.1:6379:6379'
+    #ports:
+    #  - '6379:6379'
     logging:
       driver: 'fluentd'
       options:
@@ -147,5 +148,6 @@ services:
 
 volumes:
   mysql-data:
+  redis-data:
   html-data:
   certbot-etc:
