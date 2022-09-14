@@ -29,7 +29,7 @@ services:
     depends_on:
       - 'elasticsearch'
     build: './build/fluentd'
-    image: 'fluentd-with-plugins:1.15-1'
+    image: 'fluentd-with-plugins:1.15.2-1.0'
     container_name: 'fluentd'
     volumes:
       - './etc/fluentd:/fluentd/etc:ro'
