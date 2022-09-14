@@ -117,7 +117,7 @@ services:
       args:
         # echo "https://github.com/FRiCKLE/ngx_cache_purge/archive/2.3.tar.gz" > ./nginx/cachepurge/source
         ENABLED_MODULES: 'cachepurge'
-    image: 'nginx-with-modules:1.23.0'
+    image: 'nginx-with-modules:1.23.1'
     container_name: 'nginx'
     volumes:
       - 'html-data:/var/www/html'
