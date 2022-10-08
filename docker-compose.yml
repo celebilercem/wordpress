@@ -3,7 +3,7 @@ version: '3'
 services:
   # Official Elasticsearch image
   elasticsearch:
-    image: 'elasticsearch:8.4.2'
+    image: 'elasticsearch:8.4.3'
     container_name: 'elasticsearch'
     volumes:
       - './etc/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro'
@@ -16,7 +16,7 @@ services:
   kibana:
     depends_on:
       - 'elasticsearch'
-    image: 'kibana:8.4.2'
+    image: 'kibana:8.4.3'
     container_name: 'kibana'
     labels:
       - 'traefik.enable=true'
