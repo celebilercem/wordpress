@@ -11,6 +11,7 @@ It currently consists of:
    * [Redis](https://redis.io/)
    * WordPress with [PHP-FPM](https://www.php.net/manual/en/install.fpm.php)
    * Web server: [NGINX](https://www.nginx.com/)
+   * Reverse proxy: [Traefik](https://traefik.io/traefik/)
 
 ### Features
 
@@ -19,7 +20,7 @@ It currently consists of:
    * Object caching via `Redis`
    * Rate limiter against brute force attacks
    * Scored <b>A</b> by web security scanners (e.g., [ImmuniWeb](https://www.immuniweb.com/), [Security Headers](https://securityheaders.com/))
-   * Automatic retrieval of HTTPS certificates with [Certbot](https://certbot.eff.org)
+   * Automatic retrieval of HTTPS certificates with Traefik and [Cloudflare](https://www.cloudflare.com/)
 
 ### Docker image plugins
 
@@ -38,29 +39,11 @@ The below instructions are for the `root` user in a Docker-enabled Linux-based x
 
 ### Configure environment variables
 
-Create a new `.env` file in the root folder with the following content:
-```
-MYSQL_ROOT_PASSWORD=
-MYSQL_USER=[e.g., wordpress]
-MYSQL_PASSWORD=
-WORDPRESS_TABLE_PREFIX=[e.g., wb3C_]
-```
-
-<b>Note:</b> The last variable is not mandatory, but it's suggested for security reasons.
-
+Create a new `.env` file with the necessary environment variables (see the `.env.example` file).
 Restrict access to the file:
 ```
 chmod 600 .env
 ```
-
-### Generate DH parameters for NGINX
-
-Go into the `etc/ssl/certs/` folder and run the following command:
-```
-openssl dhparam -out ssl_dhparam.pem [numbits]
-```
-
-See the official [OpenSSL documentation](https://www.openssl.org/docs/man1.1.1/man1/openssl-dhparam.html) for further details.
 
 ### Customize configuration files
 
@@ -78,10 +61,3 @@ docker-compose up -d
 
    * [NGINXHelper](https://wordpress.org/plugins/nginx-helper/) - adds support for the `ngx_cache_purge` module
    * [Redis Object Cache](https://wordpress.org/plugins/redis-cache/) - adds support for `Redis`
-
-### Configure automatic renewal of HTTPS certificates
-
-Add a job to crontab, similar to the following:
-```
-0 0 * * * /<path to project>/scripts/certbot_renew.sh >> /var/log/certbot.log 2>&1
-```
