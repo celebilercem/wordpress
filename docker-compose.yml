@@ -3,7 +3,7 @@ version: '3'
 services:
   # Official Elasticsearch image
   elasticsearch:
-    image: 'elasticsearch:8.5.0'
+    image: 'elasticsearch:8.5.1'
     container_name: 'elasticsearch'
     volumes:
       - './etc/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro'
@@ -16,7 +16,7 @@ services:
   kibana:
     depends_on:
       - 'elasticsearch'
-    image: 'kibana:8.5.0'
+    image: 'kibana:8.5.1'
     container_name: 'kibana'
     labels:
       - 'traefik.enable=true'
@@ -135,7 +135,7 @@ services:
       - 'mysql'
       - 'redis'
     build: './build/wordpress'
-    image: 'wordpress:6.1.0-php8.1-fpm-alpine'
+    image: 'wordpress:6.1.1-php8.1-fpm-alpine'
     container_name: 'wordpress'
     env_file: .env
     environment:
