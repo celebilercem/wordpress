@@ -46,7 +46,7 @@ services:
     restart: 'always'
 
   # Official Traefik image
-  image: 'traefik:v2.9.4'
+  image: 'traefik:v2.9.5'
     container_name: 'traefik'
     environment:
       - 'CF_API_EMAIL=$CF_API_EMAIL'
@@ -92,7 +92,7 @@ services:
   mysql:
     depends_on:
       - 'fluentd'
-    image: 'mariadb:10.9.4'
+    image: 'mariadb:10.10.2'
     container_name: 'mysql'
     env_file: '.env'
     environment:
