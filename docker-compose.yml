@@ -3,7 +3,7 @@ version: '3'
 services:
   # Official Elasticsearch image
   elasticsearch:
-    image: 'elasticsearch:8.5.1'
+    image: 'elasticsearch:8.5.2'
     container_name: 'elasticsearch'
     volumes:
       - './etc/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro'
@@ -16,7 +16,7 @@ services:
   kibana:
     depends_on:
       - 'elasticsearch'
-    image: 'kibana:8.5.1'
+    image: 'kibana:8.5.2'
     container_name: 'kibana'
     labels:
       - 'traefik.enable=true'
@@ -46,7 +46,7 @@ services:
     restart: 'always'
 
   # Official Traefik image
-  image: 'traefik:v2.9.5'
+  image: 'traefik:v2.9.6'
     container_name: 'traefik'
     environment:
       - 'CF_API_EMAIL=$CF_API_EMAIL'
