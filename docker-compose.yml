@@ -3,7 +3,7 @@ version: '3'
 services:
   # Official Elasticsearch image
   elasticsearch:
-    image: 'elasticsearch:8.5.2'
+    image: 'elasticsearch:8.5.3'
     container_name: 'elasticsearch'
     volumes:
       - './etc/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro'
@@ -16,7 +16,7 @@ services:
   kibana:
     depends_on:
       - 'elasticsearch'
-    image: 'kibana:8.5.2'
+    image: 'kibana:8.5.3'
     container_name: 'kibana'
     labels:
       - 'traefik.enable=true'
@@ -168,7 +168,7 @@ services:
       args:
         # echo "https://github.com/FRiCKLE/ngx_cache_purge/archive/2.3.tar.gz" > ./nginx/cachepurge/source
         ENABLED_MODULES: 'cachepurge'
-    image: 'nginx-with-modules:1.23.2'
+    image: 'nginx-with-modules:1.23.3'
     container_name: 'nginx'
     labels:
       - 'traefik.enable=true'
