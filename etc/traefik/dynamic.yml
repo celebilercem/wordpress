@@ -21,7 +21,7 @@ http:
         frameDeny: true
         browserXssFilter: true
         permissionsPolicy: 'accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),execution-while-not-rendered=(),execution-while-out-of-viewport=(),fullscreen=(),geolocation=(),gyroscope=(),keyboard-map=(),magnetometer=(),microphone=(),midi=(),payment=(),picture-in-picture=(),screen-wake-lock=(),sync-xhr=(),usb=(),web-share=(),xr-spatial-tracking=()'
-        contentSecurityPolicy: 'default-src "self" "unsafe-inline" "unsafe-eval" https: data: blob:;'
+        contentSecurityPolicy: "default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:;"
 
 tls:
   options:
