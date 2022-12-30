@@ -1,7 +1,0 @@
-# Configuration guide: https://www.elastic.co/guide/en/kibana/current/settings.html
-# Sample configuration file: https://github.com/elastic/kibana/blob/master/config/kibana.yml
-
-server.publicBaseUrl: "https://kibana.example.com"
-server.name: "kibana"
-server.host: "0.0.0.0"
-elasticsearch.hosts: ["http://elasticsearch:9200"]

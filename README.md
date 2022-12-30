@@ -48,7 +48,6 @@ chmod 600 .env
 ### Customize configuration files
 
 The `etc/` folder contains all the configuration files.
-See how to set the JVM heap size in the official [Elasticsearch documentation](https://www.elastic.co/guide/en/elasticsearch/reference/7.16/advanced-configuration.html#set-jvm-heap-size).
 
 ### Run package
 
@@ -56,6 +55,12 @@ Run the following command from the root folder:
 ```
 docker-compose up -d
 ```
+
+#### Enroll Kibana
+
+Kibana needs to be enrolled when executed for the first time.
+   * The enrollment key can be retrieved from the logs, e.g.: `docker logs kibana | grep "to get started."`
+   * The enrollment token can be retrieved executing: `docker exec -it elasticsearch bin/elasticsearch-create-enrollment-token --scope kibana`
 
 ### Install WordPress plugins
 

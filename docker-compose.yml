@@ -3,21 +3,33 @@ version: '3'
 services:
   # Official Elasticsearch image
   elasticsearch:
-    image: 'elasticsearch:8.5.3'
+    image: 'docker.elastic.co/elasticsearch/elasticsearch:$ELASTIC_STACK_VERSION'
     container_name: 'elasticsearch'
+    environment:
+      - 'ES_JAVA_OPTS=-Xms1g -Xmx1g'
+      - 'ELASTIC_PASSWORD=$ELASTIC_PASSWORD'
+      - 'discovery.type=single-node'
+      - 'ingest.geoip.downloader.enabled=false'
     volumes:
-      - './etc/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro'
-      - './etc/elasticsearch/jvm.options.d:/usr/share/elasticsearch/config/jvm.options.d:ro'
+      - 'elasticsearch-config:/usr/share/elasticsearch/config'
+      - 'elasticsearch-data:/usr/share/elasticsearch/data'
 #    ports:
-#      - 9200:9200
+#      - '9200:9200'
     restart: 'always'
 
   # Official Kibana image
   kibana:
     depends_on:
       - 'elasticsearch'
-    image: 'kibana:8.5.3'
+    image: 'docker.elastic.co/kibana/kibana:$ELASTIC_STACK_VERSION'
     container_name: 'kibana'
+    environment:
+      - 'SERVER_PUBLICBASEURL=https://$HOST_KIBANA/'
+      - 'XPACK_REPORTING_ROLES_ENABLED=false'
+      - 'XPACK_REPORTING_KIBANASERVER_HOSTNAME=localhost'
+      - 'XPACK_REPORTING_ENCRYPTIONKEY=$ELASTIC_ENCRYPTIONKEY'
+      - 'XPACK_SECURITY_ENCRYPTIONKEY=$ELASTIC_ENCRYPTIONKEY'
+      - 'XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY=$ELASTIC_ENCRYPTIONKEY'
     labels:
       - 'traefik.enable=true'
       - 'traefik.http.routers.kibana.rule=Host(`$HOST_KIBANA`)'
@@ -26,7 +38,8 @@ services:
       - 'traefik.http.routers.kibana.service=kibana'
       - 'traefik.http.services.kibana.loadbalancer.server.port=5601'
     volumes:
-      - './etc/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml:ro'
+      - 'kibana-config:/usr/share/kibana/config'
+      - 'kibana-data:/usr/share/kibana/data'
 #    ports:
 #      - '5601:5601'
     restart: 'always'
@@ -172,10 +185,10 @@ services:
     container_name: 'nginx'
     labels:
       - 'traefik.enable=true'
-      - 'traefik.http.routers.wordpress.rule=Host(`$HOST_NGINX`)'
-      - 'traefik.http.routers.wordpress.entrypoints=websecure'
-      - 'traefik.http.routers.wordpress.service=wordpress'
-      - 'traefik.http.services.wordpress.loadbalancer.server.port=80'
+      - 'traefik.http.routers.nginx.rule=Host(`$HOST_NGINX`)'
+      - 'traefik.http.routers.nginx.entrypoints=websecure'
+      - 'traefik.http.routers.nginx.service=nginx'
+      - 'traefik.http.services.nginx.loadbalancer.server.port=80'
     volumes:
       - './etc/nginx/nginx.conf:/etc/nginx/nginx.conf:ro'
       - './etc/nginx/conf.d:/etc/nginx/conf.d:ro'
@@ -189,6 +202,10 @@ services:
     restart: 'always'
 
 volumes:
+  elasticsearch-config:
+  elasticsearch-data:
+  kibana-config:
+  kibana-data:
   mysql-data:
   redis-data:
   html-data:
