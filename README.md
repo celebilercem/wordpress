@@ -12,6 +12,7 @@ It currently consists of:
    * WordPress with [PHP-FPM](https://www.php.net/manual/en/install.fpm.php)
    * Web server: [NGINX](https://www.nginx.com/)
    * Reverse proxy: [Traefik](https://traefik.io/traefik/)
+   * [Watchtower](https://containrrr.dev/watchtower/)
 
 ### Features
 
@@ -21,6 +22,7 @@ It currently consists of:
    * Rate limiter against brute force attacks
    * Scored <b>A</b> by web security scanners (e.g., [ImmuniWeb](https://www.immuniweb.com/), [Security Headers](https://securityheaders.com/))
    * Automatic retrieval of HTTPS certificates with Traefik and [Cloudflare](https://www.cloudflare.com/)
+   * Automatic update of containerized applications
 
 ### Docker image plugins
 
