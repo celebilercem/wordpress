@@ -59,7 +59,7 @@ services:
     restart: 'always'
 
   # Official Traefik image
-  image: 'traefik:v2.9.6'
+  image: 'traefik:latest'
     container_name: 'traefik'
     environment:
       - 'CF_API_EMAIL=$CF_API_EMAIL'
@@ -90,6 +90,7 @@ services:
 #      - '--log.level=DEBUG'
       - '--log.format=common'
     labels:
+      - 'com.centurylinklabs.watchtower.enable=true'    
       - 'traefik.enable=true'
       - 'traefik.http.routers.dashboard.rule=Host(`$HOST_TRAEFIK`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))'
       - 'traefik.http.routers.dashboard.entryPoints=websecure'
@@ -105,14 +106,15 @@ services:
   mysql:
     depends_on:
       - 'fluentd'
-    image: 'mariadb:10.10.2'
+    image: 'mariadb:10'
     container_name: 'mysql'
-    env_file: '.env'
     environment:
       - 'MARIADB_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD'
       - 'MARIADB_USER=$MYSQL_USER'
       - 'MARIADB_PASSWORD=$MYSQL_PASSWORD'
       - 'MARIADB_DATABASE=$MYSQL_DATABASE'
+    labels:
+      - 'com.centurylinklabs.watchtower.enable=true'
     volumes:
       - './etc/mysql/conf.d:/etc/mysql/conf.d:ro'
       - 'mysql-data:/var/lib/mysql'
@@ -129,8 +131,10 @@ services:
   redis:
     depends_on:
       - 'fluentd'
-    image: 'redis:7.0.7-alpine'
+    image: 'redis:alpine'
     container_name: 'redis'
+    labels:
+      - 'com.centurylinklabs.watchtower.enable=true'
     volumes:
       - 'redis-data:/data'
 #    ports:
@@ -147,10 +151,12 @@ services:
       - 'fluentd'
       - 'mysql'
       - 'redis'
-    build: './build/wordpress'
-    image: 'wordpress:6.1.1-php8.1-fpm-alpine'
+    build:
+      context: './build/wordpress'
+      args:
+        WORDPRESS_VERSION: '$WORDPRESS_VERSION'
+    image: 'wordpress:$WORDPRESS_VERSION'
     container_name: 'wordpress'
-    env_file: .env
     environment:
       - 'WORDPRESS_DB_HOST=mysql'
       - 'WORDPRESS_DB_USER=$MYSQL_USER'
@@ -159,6 +165,8 @@ services:
       - WORDPRESS_CONFIG_EXTRA=
           define('WP_REDIS_HOST', 'redis');
           define('WP_REDIS_PORT', '6379');
+    labels:
+      - 'com.centurylinklabs.watchtower.enable=true'
     volumes:
       - './etc/php/custom.ini:/usr/local/etc/php/conf.d/custom.ini:ro'
       - 'html-data:/var/www/html'
@@ -181,7 +189,7 @@ services:
       args:
         # echo "https://github.com/FRiCKLE/ngx_cache_purge/archive/2.3.tar.gz" > ./nginx/cachepurge/source
         ENABLED_MODULES: 'cachepurge'
-    image: 'nginx-with-modules:1.23.3'
+    image: 'nginx-with-modules:$NGINX_VERSION'
     container_name: 'nginx'
     labels:
       - 'traefik.enable=true'
@@ -199,6 +207,25 @@ services:
       driver: 'fluentd'
       options:
         tag: '{{.DaemonName}}.{{.Name}}'
+    restart: 'always'
+
+  # Official Watchtower image
+  watchtower:
+    image: 'containrrr/watchtower:latest'
+    container_name: 'watchtower'
+    environment:
+      - 'WATCHTOWER_CLEANUP=true'
+      - 'WATCHTOWER_POLL_INTERVAL=21600'
+      - 'WATCHTOWER_LABEL_ENABLE=true'
+      - 'WATCHTOWER_NOTIFICATIONS=email'
+      - 'WATCHTOWER_NOTIFICATION_EMAIL_SERVER=172.17.0.1'
+      - 'WATCHTOWER_NOTIFICATION_EMAIL_FROM=watchtower@example.com'
+      - 'WATCHTOWER_NOTIFICATION_EMAIL_TO=admin@example.com'
+      - 'WATCHTOWER_WARN_ON_HEAD_FAILURE=never'
+    labels:
+      - 'com.centurylinklabs.watchtower.enable=true'
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock:ro'
     restart: 'always'
 
 volumes:
