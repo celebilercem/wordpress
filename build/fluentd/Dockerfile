@@ -1,5 +1,5 @@
 # https://docs.fluentd.org/container-deployment/docker-compose
-FROM fluent/fluentd:v1.16-1
+FROM fluentd:latest
 
 # Use root account to install plugins.
 USER root
