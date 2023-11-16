@@ -220,6 +220,9 @@ services:
       - 'WATCHTOWER_NOTIFICATIONS=email'
       - 'WATCHTOWER_NOTIFICATION_EMAIL_SERVER=172.17.0.1'
       - 'WATCHTOWER_NOTIFICATION_EMAIL_FROM=watchtower@example.com'
+      - 'WATCHTOWER_NOTIFICATION_EMAIL_SUBJECTTAG=test'
+      - 'WATCHTOWER_NOTIFICATION_EMAIL_TO=mail@example.com'
+      - 'WATCHTOWER_NO_STARTUP_MESSAGE=true'
       - 'WATCHTOWER_WARN_ON_HEAD_FAILURE=never'
     labels:
       - 'com.centurylinklabs.watchtower.enable=true'
